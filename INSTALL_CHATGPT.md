@@ -1,39 +1,37 @@
 # Установка requirements-handoff в ChatGPT
 
-`requirements-handoff` предназначен для установки и использования в ChatGPT.
+`requirements-handoff` предназначен для установки и использования только в ChatGPT.
 
-## Загрузка готового Skill
+## Готовая сборка
 
-Если в вашем ChatGPT доступен раздел Skills:
+Скачайте последний ZIP из [GitHub Releases](https://github.com/z03ps00/chatgpt-requirements-handoff/releases/latest). Распаковывать архив перед загрузкой не требуется.
+
+Если в ChatGPT доступен раздел Skills:
 
 1. Откройте боковую панель ChatGPT.
 2. Выберите `Plugins`.
-3. В каталоге Plugins откройте вкладку `Skills`.
+3. Откройте вкладку `Skills`.
 4. Нажмите `Create`.
 5. Выберите `Upload from your computer`.
-6. Загрузите ZIP-пакет Skill.
-7. Просмотрите содержимое после проверки ChatGPT и завершите установку.
+6. Загрузите ZIP из Release.
+7. Просмотрите содержимое и завершите установку.
 
-После установки ChatGPT может автоматически использовать Skill, когда запрос соответствует его назначению.
+После установки ChatGPT может автоматически использовать Skill, когда запрос соответствует русскому `description`.
 
 ## Интерактивное создание
 
-Можно создать Skill через ChatGPT:
-
 `Plugins` → `Skills` → `Create` → `Create with chat`
 
-Передайте содержимое репозитория или ZIP-пакет и используйте запрос:
+Передайте ZIP и используйте запрос:
 
 ```text
 Создай Personal Skill из пакета requirements-handoff.
-Сохрани имя, description, SKILL.md и supporting resources без смыслового упрощения.
+Сохрани имя, русское description, SKILL.md и supporting resources без смыслового упрощения.
 Skill предназначен только для ChatGPT.
 После создания покажи draft для проверки перед установкой.
 ```
 
-## Проверка после установки
-
-Используйте запрос:
+## Быстрая проверка
 
 ```text
 Оформи это человеческое описание как требования для передачи разработчику:
@@ -41,13 +39,8 @@ Skill предназначен только для ChatGPT.
 Нужно после проведения документа показывать отдельное предупреждение, старое сообщение убрать, но существующий алгоритм проверки не менять. Должно работать и для «Провести и закрыть».
 ```
 
-Ожидаемый результат:
-
-- сформирован `Requirements Handoff Contract`;
-- выделены `R-*`, `AC-*`, `NG-*`, `PR-*`, `INV-*`;
-- предполагаемая техническая реализация не превращена в обязательное требование;
-- Skill не строит implementation plan вместо контракта требований.
+Ожидается `Requirements Handoff Contract` с `R-*`, `AC-*`, `NG-*`, `PR-*`, `INV-*`, без подмены требований implementation plan.
 
 ## Доступность Skills
 
-Personal Skills доступны не во всех планах и рабочих областях. Интерфейс также может отличаться между ChatGPT web, desktop и mobile. Актуальная справка: [Skills in ChatGPT — OpenAI Help Center](https://help.openai.com/en/articles/20001066-skills-in-chatgpt).
+Personal Skills доступны не во всех планах и рабочих областях. Интерфейс может отличаться между web, desktop и mobile. Актуальная справка: [Skills in ChatGPT — OpenAI Help Center](https://help.openai.com/en/articles/20001066-skills-in-chatgpt).
