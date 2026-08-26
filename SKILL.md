@@ -3,115 +3,93 @@ name: requirements-handoff
 description: "ChatGPT Skill для преобразования неструктурированных человеческих ТЗ, задач из трекера, переписки, писем, заметок и расшифровок встреч в нейтральный Requirements Handoff Contract. Использовать в ChatGPT, когда нужно формализовать задачу для разработчика или следующего AI-этапа, подготовить ТЗ/спецификацию/handoff либо отделить требования от технических предположений и реализации."
 license: MIT
 metadata:
-  version: "1.0.0"
-  language: "ru"
+  version: "1.1.0"
+  language: "en"
   artifact: "requirements-handoff-contract"
 ---
 
 # Requirements Handoff
 
-> В ChatGPT преобразуй человеческое описание задачи в нейтральный контракт требований, который следующий инженерный этап сможет использовать без повторного восстановления смысла из переписки.
+Turn messy human task descriptions into a neutral requirements contract that the next engineering stage can use without reconstructing intent from chat history.
 
-## Когда использовать
+## Use when
 
-Используй навык, когда пользователь просит:
+Use this skill when the user asks to:
+- formalize a task or specification for a developer;
+- prepare a task for an AI coding agent;
+- convert tracker issues, chat, email, meeting notes, or research into a specification;
+- prepare a development handoff;
+- prepare input for OpenSpec, `/opsx propose`, or Plan Mode;
+- separate requirements from technical assumptions or implementation ideas;
+- consolidate scattered requirements into a testable contract.
 
-- оформить или формализовать ТЗ для разработчика;
-- подготовить задачу для AI coding-agent;
-- превратить переписку, письмо, встречу, заметки или задачу трекера в спецификацию;
-- подготовить handoff для разработки;
-- подготовить вход для OpenSpec, `/opsx propose` или Plan Mode;
-- отделить требования от технических предположений и возможной реализации;
-- привести разрозненные требования к единому проверяемому контракту.
+Do not use it as the primary workflow when the user already has a sufficient contract and asks only for implementation, technical design, a tiny wording edit, or a plain summary.
 
-## Когда не использовать
+## Inputs
 
-Не используй навык как основной workflow, если пользователь просит:
+Inputs may include user text, files, tracker issues, comments, email, meeting transcripts, research, source code, or technical notes.
 
-- сразу реализовать код по уже достаточной спецификации;
-- выполнить техническое проектирование без задачи нормализации требований;
-- только исправить формулировку одного короткого сообщения;
-- просто пересказать или кратко суммировать материал без подготовки инженерного handoff.
+When sources are provided, ground the contract in those sources. Do not fill gaps with general knowledge unless clearly marked as an assumption.
 
-Если исходный материал уже является качественным Requirements Handoff Contract, не переписывай его без необходимости: выполни проверку качества и укажи только реальные пробелы или противоречия.
+## Workflow
 
-## Вход
+1. **Extract intent.** Identify the goal and observable outcome.
+2. **Normalize input.** Remove repetition and conversational noise, but preserve decisions, exceptions, constraints, negative requirements, and important rejected alternatives.
+3. **Separate information types.** Distinguish required behavior, current context, and implementation ideas.
+4. **Classify confidence.** Use `CONFIRMED`, `INFERRED`, `UNKNOWN`.
+5. **Set scope.** Capture In Scope, `NG-*`, and `PR-*`. Non-Goal and Preserve are different.
+6. **Build requirements.** Create atomic, testable `R-*` that describe WHAT, not HOW.
+7. **Add behavior checks.** Create `S-*` and `AC-*`. They must not introduce new requirements.
+8. **Split unknowns.** Put system-research questions in `INV-*`; unresolved business decisions in `Q-*`.
+9. **Capture constraints and evidence.** Use `FC-*`, `TC-*`, `VAL-*`, `RISK-*`, `DEC-*`, `SRC-*` only when needed.
+10. **Build traceability.** Every mandatory `R-*` must have at least one `AC-*`.
+11. **Run QA.** Read `references/quality-gates.md` and fix issues before returning the contract.
+12. **Return a neutral contract.** Do not embed a specific agent or framework workflow.
 
-Входом может быть один или несколько источников:
+## Core rules
 
-- свободный текст пользователя;
-- файл с ТЗ;
-- задача или комментарии из трекера;
-- переписка или письмо;
-- расшифровка встречи;
-- результаты исследования;
-- исходники или технические заметки.
+- Requirements describe **WHAT**, not **HOW**, unless implementation is explicitly mandated.
+- Never turn a plausible guess into a requirement or confirmed fact.
+- Never invent missing business decisions.
+- Technical uncertainty alone does not make the contract `BLOCKED` if the next engineering stage can investigate it.
+- If a technical question can be investigated later, preserve it as `INV-*` instead of asking the user by default.
+- `NG-*` means intentionally out of scope.
+- `PR-*` means existing behavior that must keep working.
+- Preserve exact text, values, and explicit business decisions when exactness matters.
+- If a later decision clearly replaces an earlier one, use the final decision and keep the rejection rationale when useful.
+- If conflicting sources cannot be resolved, expose the conflict or create `Q-*`; do not choose silently.
+- Do not tailor the contract itself to OpenSpec, Codex, Claude Code, Cursor, OpenCode, or another downstream workflow.
 
-При работе с приложенными источниками опирайся на фактически содержащуюся в них информацию. Не заполняй пробелы общими знаниями без явной маркировки.
+## Output
 
-## Рабочий процесс
+Use `references/contract-format.md` and `assets/requirements-handoff-template.md`.
 
-1. **Выдели намерение.** Определи цель изменения и ожидаемый наблюдаемый результат.
-2. **Нормализуй вход.** Удали повторы и разговорный шум, но сохрани решения, исключения, ограничения, отрицательные требования и причины значимых отказов от альтернатив.
-3. **Раздели типы информации.** Отдели требуемое поведение от текущего технического контекста и от предложенных способов реализации.
-4. **Классифицируй достоверность.** Используй `ПОДТВЕРЖДЕНО`, `ПРЕДПОЛОЖЕНИЕ`, `НЕИЗВЕСТНО`.
-5. **Определи границы.** Зафиксируй In Scope, `NG-*` и `PR-*`. Не смешивай Non-Goal и Preserve.
-6. **Сформируй требования.** Создай атомарные и проверяемые `R-*`, описывающие WHAT, а не HOW.
-7. **Добавь проверку поведения.** Сформируй `S-*` и `AC-*`. Сценарии и критерии приёмки не должны вводить новые требования.
-8. **Раздели неизвестность.** Технические вопросы, разрешимые исследованием системы, вынеси в `INV-*`; бизнес-решения — в `Q-*`.
-9. **Зафиксируй ограничения, точные значения, риски и значимые решения.** Используй `FC-*`, `TC-*`, `VAL-*`, `RISK-*`, `DEC-*` только когда они реально нужны.
-10. **Привяжи источники.** Используй `SRC-*` для существенных подтверждённых фактов и решений. Не придумывай evidence.
-11. **Построй трассировку.** Для каждого обязательного `R-*` должна существовать проверка через `AC-*`.
-12. **Проведи QA.** Прочитай `references/quality-gates.md` и исправь контракт до выдачи.
-13. **Выдай нейтральный Contract.** Не встраивай в него workflow конкретного coding-agent или framework.
+Contract status:
+- `DRAFT`: normalization is not complete;
+- `BLOCKED`: a missing business decision prevents unambiguous required behavior;
+- `READY`: the business contract is sufficient for the next engineering stage.
 
-## Основные правила
+`READY` does not mean implementation can start immediately. It means the downstream consumer can begin research, proposal, design, or planning.
 
-- Требования описывают прежде всего **WHAT**, а не **HOW**.
-- Не превращай разумную догадку в требование или подтверждённый факт.
-- Не придумывай отсутствующие бизнес-решения.
-- Техническая неизвестность сама по себе не делает контракт `BLOCKED`, если её может закрыть следующий инженерный этап.
-- Не задавай пользователю технический вопрос, если задача этого навыка — подготовить handoff и вопрос можно честно сохранить как `INV-*`.
-- `Non-Goal` означает «этим в рамках задачи не занимаемся».
-- `Preserve` означает «это поведение обязано остаться рабочим».
-- Сохраняй точные строки, значения и явные бизнес-решения без перефразирования, если их точность существенна.
-- Если более позднее решение явно отменило раннее, используй итоговое решение; сохрани rationale отказа, если он важен для будущего проектирования.
-- При неразрешимом противоречии не выбирай вариант молча: отрази конфликт или `Q-*`.
-- Не адаптируй сам контракт под OpenSpec, Codex, Claude Code, Cursor, OpenCode или другой конкретный downstream workflow.
+Return the contract in the user's language unless they request another language. If the user asks for a file, create a Markdown contract.
 
-## Формат результата
+## Handoff neutrality
 
-Используй структуру из `references/contract-format.md` и шаблон `assets/requirements-handoff-template.md`.
+The final contract must not require:
+- OpenSpec or `/opsx propose`;
+- a specific Plan Mode;
+- `design.md`;
+- a specific agent loop;
+- specific coding-agent commands;
+- a tool-specific implementation report.
 
-Статус контракта:
+The next stage must preserve requirements, scope, invariants, constraints, exact values, and verification intent, but it chooses its own engineering workflow.
 
-- `DRAFT` — аналитическая нормализация ещё не завершена;
-- `BLOCKED` — отсутствует бизнес-решение, без которого нельзя однозначно определить требуемое поведение;
-- `READY` — бизнес-контракт достаточно определён для передачи на следующий инженерный этап.
+## References
 
-`READY` не означает, что можно сразу писать код. Он означает, что downstream consumer может начинать research / proposal / design / planning.
+Before finishing, read `references/quality-gates.md`.
 
-По умолчанию выдавай результат на языке пользователя. Если пользователь просит файл — формируй Markdown-файл с контрактом.
-
-## Нейтральность handoff
-
-В итоговом Contract не требуй:
-
-- использования OpenSpec или `/opsx propose`;
-- конкретного Plan Mode;
-- создания `design.md`;
-- конкретного agent loop;
-- конкретных команд coding-agent;
-- конкретного implementation report.
-
-Следующий этап обязан сохранить смысл требований, границы, инварианты, ограничения и критерии проверки, но способ engineering workflow выбирает сам.
-
-## Перед завершением
-
-Обязательно прочитай `references/quality-gates.md`.
-
-Для детальной семантики разделов и идентификаторов используй `references/contract-format.md`.
-
-Для правил преобразования разговорного ТЗ используй `references/normalization-rules.md`.
-
-Если нужен ориентир по качеству результата, используй `examples/example-payment-warning.md`.
+Use:
+- `references/contract-format.md` for section semantics and IDs;
+- `references/normalization-rules.md` for converting human prose;
+- `examples/example-payment-warning.md` as a quality example when useful.
