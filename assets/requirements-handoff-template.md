@@ -1,131 +1,100 @@
-# Requirements Handoff Contract — [короткое имя задачи]
+# Requirements Handoff Contract — [short task name]
 
-## 0. Статус
-
+## 0. Status
 `READY | DRAFT | BLOCKED`
 
-## 1. Цель
+## 1. Objective
+[What must change, why, and the required observable outcome.]
 
-[Что требуется изменить, зачем и какой наблюдаемый результат должен быть получен.]
+## 2. Scope
+### In Scope
+- [item]
 
-## 2. Границы задачи
+### Out of Scope
+#### NG-001 — [name]
+[Intentionally excluded behavior.]
 
-### Входит в задачу
-
-- [пункт]
-
-### Не входит в задачу
-
-#### NG-001 — [название]
-
-[Что намеренно не меняется.]
-
-## 3. Текущее поведение
-
+## 3. Current Behavior
 ### CTX-001
+**Status:** `CONFIRMED | INFERRED | UNKNOWN`  
+**Fact / observation:** [description]  
+**Source:** `SRC-001 | none`  
+**Needs verification:** `yes | no`
 
-**Статус:** `ПОДТВЕРЖДЕНО | ПРЕДПОЛОЖЕНИЕ | НЕИЗВЕСТНО`  
-**Факт / наблюдение:** [описание]  
-**Источник:** `SRC-001 | отсутствует`  
-**Требуется проверка:** `да | нет`
+## 4. Expected Behavior
+[Short target flow without new requirements.]
 
-## 4. Требуемое поведение
+## 5. Requirements
+### R-001 — [name]
+**Condition:** [when it applies]  
+**Requirement:** [what the system must do]  
+**Expected result:** [observable result]  
+**Source:** `SRC-001 | original request`
 
-[Краткий target flow без новых требований.]
+## 6. Scenarios
+### S-001 — [name]
+**Covers:** `R-001`  
+**Given:** [initial state]  
+**When:** [action / event]  
+**Then:** [expected result]
 
-## 5. Требования
-
-### R-001 — [название]
-
-**Условие:** [когда применяется]  
-**Требование:** [что система должна сделать]  
-**Ожидаемый результат:** [что можно проверить]  
-**Источник:** `SRC-001 | исходное ТЗ`
-
-## 6. Сценарии
-
-### S-001 — [название]
-
-**Проверяет:** `R-001`  
-**Дано:** [начальное состояние]  
-**Когда:** [действие / событие]  
-**Тогда:** [ожидаемый результат]
-
-## 7. Критерии приёмки
-
+## 7. Acceptance Criteria
 ### AC-001
+**Verifies:** `R-001`  
+**Condition:** [state]  
+**Action:** [what happens]  
+**Expected:** [unambiguous result]
 
-**Проверяет:** `R-001`  
-**Условие:** [состояние]  
-**Действие:** [что происходит]  
-**Ожидается:** [однозначно проверяемый результат]
+## 8. Preserve / Invariants
+### PR-001 — [name]
+[Behavior that must keep working.]
 
-## 8. Сохраняемое поведение
+## 9. Constraints
+### Functional
+None.
 
-### PR-001 — [название]
+### Technical
+None.
 
-[Что обязано продолжить работать.]
+## 10. Exact Text and Values
+None.
 
-## 9. Ограничения
+## 11. Known Technical Context
+None.
 
-### Функциональные
-
-Нет.
-
-### Технические
-
-Нет.
-
-## 10. Точные тексты и значения
-
-Нет.
-
-## 11. Известный технический контекст
-
-Нет.
-
-## 12. Требуется техническое исследование
-
+## 12. Technical Investigation
 ### INV-001
+**Question:** [question]  
+**Why it matters:** [impact]  
+**Where to investigate:** [source / configuration / docs / runtime / tests / other]  
+**Blocks dependent technical decision:** `yes | no`
 
-**Что требуется выяснить:** [вопрос]  
-**Почему важно:** [влияние]  
-**Где искать:** [исходники / конфигурация / документация / runtime / тесты / другое]  
-**Блокирует зависимое техническое решение:** `да | нет`
+## 13. Open Business Questions
+None.
 
-## 13. Открытые бизнес-вопросы
+## 14. Decisions and Rejected Alternatives
+None.
 
-Нет.
+## 15. Risks
+None.
 
-## 14. Значимые решения и отклонённые альтернативы
-
-Нет.
-
-## 15. Риски
-
-Нет.
-
-## 16. Источники
-
+## 16. Sources
 ### SRC-001
+**Type:** [business / source-code / configuration / documentation / runtime / test / communication]  
+**Source:** [description]  
+**Supports:** [CTX/R/PR/VAL]
 
-**Тип:** [business / source-code / configuration / documentation / runtime / test / communication]  
-**Источник:** [описание]  
-**Подтверждает:** [CTX/R/PR/VAL]
-
-## 17. Трассировка требований
-
+## 17. Traceability
 | Requirement | Scenarios | Acceptance Criteria | Source |
 |---|---|---|---|
 | R-001 | S-001 | AC-001 | SRC-001 |
 
-## 18. Условия передачи следующему этапу
-
-- сохранить смысл `R-*`;
-- соблюдать `NG-*`;
-- сохранить `PR-*`;
-- соблюдать ограничения и `VAL-*`;
-- не считать предположения подтверждёнными фактами;
-- разрешить релевантные `INV-*` до принятия зависимых решений;
-- явно зафиксировать конфликт Contract с фактической системой;
-- сохранить трассировку требований до проверки результата.
+## 18. Handoff Conditions
+- preserve `R-*` meaning;
+- respect `NG-*`;
+- preserve `PR-*`;
+- respect Constraints and `VAL-*`;
+- do not treat assumptions as facts;
+- resolve relevant `INV-*` before dependent decisions;
+- expose conflicts between the Contract and the actual system;
+- preserve requirement-to-verification traceability.
