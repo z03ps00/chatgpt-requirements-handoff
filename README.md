@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="docs/assets/requirements-handoff-banner.png" alt="ChatGPT Requirements Handoff" width="720"/>
+<img src="docs/assets/requirements-handoff-banner.svg" alt="ChatGPT Requirements Handoff" width="720"/>
 
 # ChatGPT Requirements Handoff
 
