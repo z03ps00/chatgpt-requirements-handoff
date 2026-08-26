@@ -1,114 +1,89 @@
-# Пример — предупреждение после проведения
+# Example — warning after posting
 
-Ниже сокращённый пример результата. Он показывает семантику, но не требует копировать количество секций или элементов, если они не нужны конкретной задаче.
+A compact example of the expected result. It demonstrates semantics; do not copy empty sections or create items that the task does not need.
 
 # Requirements Handoff Contract — payment-warning
 
-## 0. Статус
-
+## 0. Status
 READY
 
-## 1. Цель
+## 1. Objective
+Change how users are informed about a payment-schedule violation after successful posting. When a violation exists, show one separate warning while preserving the existing violation-detection algorithm.
 
-Изменить способ информирования пользователя о нарушении графика оплаты после успешного проведения документа. При нарушении пользователь должен получить отдельное предупреждение, а существующий алгоритм определения нарушения должен сохраниться.
+## 2. Scope
+### In Scope
+- new user notification after posting;
+- both Post and Post and Close flows;
+- removal of the duplicate legacy notification.
 
-## 2. Границы задачи
+### Out of Scope
+#### NG-001 — Validation business rules
+Do not change the rules that determine a payment-schedule violation.
 
-### Входит в задачу
-
-- новый способ пользовательского информирования после проведения;
-- сценарии «Провести» и «Провести и закрыть»;
-- удаление дублирующего сообщения старым механизмом.
-
-### Не входит в задачу
-
-#### NG-001 — Изменение бизнес-правил контроля
-
-Не изменять правила определения нарушения графика оплаты.
-
-## 3. Текущее поведение
-
+## 3. Current Behavior
 ### CTX-001
+**Status:** CONFIRMED  
+**Fact / observation:** when a violation is detected, the user currently receives a system message.  
+**Source:** SRC-001  
+**Needs verification:** no
 
-**Статус:** ПОДТВЕРЖДЕНО  
-**Факт / наблюдение:** при выявленном нарушении пользователю выводится системное сообщение.  
-**Источник:** SRC-001  
-**Требуется проверка:** нет
+## 4. Expected Behavior
+After successful posting, if a violation exists, the user receives one separate warning. If no violation exists, no extra warning appears.
 
-## 4. Требуемое поведение
+## 5. Requirements
+### R-001 — Warning after posting
+**Condition:** the document is successfully posted and the existing check detects a violation.  
+**Requirement:** show a separate warning to the user.  
+**Expected result:** one warning per posting action.  
+**Source:** SRC-001
 
-После успешного проведения при наличии нарушения пользователь получает одно отдельное предупреждение; при отсутствии нарушения дополнительное предупреждение не появляется.
+### R-002 — Remove the legacy notification
+**Condition:** a violation is detected.  
+**Requirement:** do not show the duplicate legacy system message.  
+**Expected result:** the user does not receive a second notification for the same violation.  
+**Source:** SRC-001
 
-## 5. Требования
+## 6. Scenarios
+### S-001 — Posting with a violation
+**Covers:** R-001, R-002  
+**Given:** the existing check identifies a violation.  
+**When:** the user posts the document.  
+**Then:** posting succeeds, exactly one warning is shown, and the legacy message is absent.
 
-### R-001 — Предупреждение после проведения
-
-**Условие:** документ успешно проведён, существующий контроль выявил нарушение.  
-**Требование:** показать пользователю отдельное предупреждение.  
-**Ожидаемый результат:** за одно действие проведения пользователь видит предупреждение ровно один раз.  
-**Источник:** SRC-001
-
-### R-002 — Удалить старый способ информирования
-
-**Условие:** контроль выявил нарушение.  
-**Требование:** не выводить дублирующее сообщение через текущий механизм системных сообщений.  
-**Ожидаемый результат:** пользователь не получает второе сообщение по тому же нарушению.  
-**Источник:** SRC-001
-
-## 6. Сценарии
-
-### S-001 — Проведение с нарушением
-
-**Проверяет:** R-001, R-002  
-**Дано:** контроль определяет нарушение.  
-**Когда:** пользователь проводит документ.  
-**Тогда:** документ успешно проводится, пользователь получает одно предупреждение, старое системное сообщение отсутствует.
-
-## 7. Критерии приёмки
-
+## 7. Acceptance Criteria
 ### AC-001
-
-**Проверяет:** R-001  
-**Условие:** есть нарушение.  
-**Действие:** пользователь проводит документ.  
-**Ожидается:** предупреждение отображается ровно один раз.
+**Verifies:** R-001  
+**Condition:** a violation exists.  
+**Action:** the user posts the document.  
+**Expected:** the warning appears exactly once.
 
 ### AC-002
+**Verifies:** R-002  
+**Condition:** a violation exists.  
+**Action:** posting is performed.  
+**Expected:** the legacy system message does not appear.
 
-**Проверяет:** R-002  
-**Условие:** есть нарушение.  
-**Действие:** выполняется проведение.  
-**Ожидается:** старое системное сообщение по нарушению не появляется.
+## 8. Preserve / Invariants
+### PR-001 — Violation detection
+The existing violation-detection algorithm and its input conditions must remain unchanged.
 
-## 8. Сохраняемое поведение
-
-### PR-001 — Алгоритм контроля
-
-Существующий алгоритм определения нарушения и его исходные условия должны остаться без изменения.
-
-## 12. Требуется техническое исследование
-
+## 12. Technical Investigation
 ### INV-001
+**Question:** which point in the current flow can show the warning correctly for both Post and Post and Close?  
+**Why it matters:** the implementation must preserve the required behavior in both user flows.  
+**Where to investigate:** form source and current write/post flow.  
+**Blocks dependent technical decision:** yes
 
-**Что требуется выяснить:** какая точка текущего процесса позволяет корректно показать предупреждение также при «Провести и закрыть».  
-**Почему важно:** технический способ должен сохранить целевое поведение в обоих пользовательских сценариях.  
-**Где искать:** исходники формы и текущий процесс записи/проведения.  
-**Блокирует зависимое техническое решение:** да
+## 13. Open Business Questions
+None.
 
-## 13. Открытые бизнес-вопросы
-
-Нет.
-
-## 16. Источники
-
+## 16. Sources
 ### SRC-001
+**Type:** business  
+**Source:** original user requirement.  
+**Supports:** R-001, R-002, PR-001
 
-**Тип:** business  
-**Источник:** исходное ТЗ пользователя.  
-**Подтверждает:** R-001, R-002, PR-001
-
-## 17. Трассировка требований
-
+## 17. Traceability
 | Requirement | Scenarios | Acceptance Criteria | Source |
 |---|---|---|---|
 | R-001 | S-001 | AC-001 | SRC-001 |
