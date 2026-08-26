@@ -1,195 +1,196 @@
-# Формат Requirements Handoff Contract
+# Requirements Handoff Contract format
 
-## Назначение
+## Purpose
 
-Contract — нейтральный аналитический артефакт между человеческим описанием задачи и инженерной фазой. Он не является `design.md`, implementation plan или набором задач на кодирование.
+The Contract is a neutral analysis artifact between a human task description and engineering work. It is not `design.md`, an implementation plan, or a coding task list.
 
-## Идентификаторы
+## IDs
 
-Используй стабильные ID только для реально существующих элементов:
+Use stable IDs only for real items:
+- `R-001` Requirement
+- `S-001` Scenario
+- `AC-001` Acceptance Criterion
+- `NG-001` Non-Goal
+- `PR-001` Preserve / invariant
+- `FC-001` Functional Constraint
+- `TC-001` Technical Constraint
+- `VAL-001` Exact Value
+- `INV-001` Technical Investigation
+- `Q-001` Business Open Question
+- `DEC-001` Significant Decision / rejected alternative
+- `RISK-001` Risk
+- `SRC-001` Evidence / Source
+- `CTX-001` Current context fact
 
-- `R-001` — Requirement;
-- `S-001` — Scenario;
-- `AC-001` — Acceptance Criterion;
-- `NG-001` — Non-Goal;
-- `PR-001` — Preserve / invariant;
-- `FC-001` — Functional Constraint;
-- `TC-001` — Technical Constraint;
-- `VAL-001` — Exact Value;
-- `INV-001` — Technical Investigation;
-- `Q-001` — Business Open Question;
-- `DEC-001` — Significant Decision / rejected alternative;
-- `RISK-001` — Risk;
-- `SRC-001` — Evidence / Source;
-- `CTX-001` — Current technical/business context fact.
+Do not create placeholder items just to fill the template.
 
-Не создавай фиктивные элементы ради заполнения шаблона.
-
-## Структура результата
+## Output structure
 
 ```markdown
-# Requirements Handoff Contract — <короткое имя задачи>
+# Requirements Handoff Contract — <short task name>
 
-## 0. Статус
+## 0. Status
 READY | DRAFT | BLOCKED
 
-## 1. Цель
-<что меняется, зачем и какой наблюдаемый результат нужен>
+## 1. Objective
+<what changes, why, and the required observable outcome>
 
-## 2. Границы задачи
-### Входит в задачу
+## 2. Scope
+### In Scope
 - ...
 
-### Не входит в задачу
-#### NG-001 — <название>
-<что намеренно не меняется>
+### Out of Scope
+#### NG-001 — <name>
+<intentionally excluded behavior>
 
-## 3. Текущее поведение
+## 3. Current Behavior
 ### CTX-001
-**Статус:** ПОДТВЕРЖДЕНО | ПРЕДПОЛОЖЕНИЕ | НЕИЗВЕСТНО
-**Факт / наблюдение:** ...
-**Источник:** SRC-001 | отсутствует
-**Требуется проверка:** да | нет
+**Status:** CONFIRMED | INFERRED | UNKNOWN
+**Fact / observation:** ...
+**Source:** SRC-001 | none
+**Needs verification:** yes | no
 
-## 4. Требуемое поведение
-<краткий target flow без новых требований>
+## 4. Expected Behavior
+<short target flow; no new requirements>
 
-## 5. Требования
-### R-001 — <название>
-**Условие:** ...
-**Требование:** ...
-**Ожидаемый результат:** ...
-**Источник:** SRC-001 | исходное ТЗ
+## 5. Requirements
+### R-001 — <name>
+**Condition:** ...
+**Requirement:** ...
+**Expected result:** ...
+**Source:** SRC-001 | original request
 
-## 6. Сценарии
-### S-001 — <название>
-**Проверяет:** R-001
-**Дано:** ...
-**Когда:** ...
-**Тогда:** ...
+## 6. Scenarios
+### S-001 — <name>
+**Covers:** R-001
+**Given:** ...
+**When:** ...
+**Then:** ...
 
-## 7. Критерии приёмки
+## 7. Acceptance Criteria
 ### AC-001
-**Проверяет:** R-001
-**Условие:** ...
-**Действие:** ...
-**Ожидается:** ...
+**Verifies:** R-001
+**Condition:** ...
+**Action:** ...
+**Expected:** ...
 
-## 8. Сохраняемое поведение
-### PR-001 — <название>
-<что обязано продолжить работать>
+## 8. Preserve / Invariants
+### PR-001 — <name>
+<behavior that must keep working>
 
-## 9. Ограничения
-### Функциональные
+## 9. Constraints
+### Functional
 #### FC-001
 ...
 
-### Технические
+### Technical
 #### TC-001
 ...
 
-## 10. Точные тексты и значения
-### VAL-001 — <назначение>
-<точное значение>
+## 10. Exact Text and Values
+### VAL-001 — <purpose>
+```text
+<exact value>
+```
 
-## 11. Известный технический контекст
+## 11. Known Technical Context
 - ...
 
-## 12. Требуется техническое исследование
+## 12. Technical Investigation
 ### INV-001
-**Что требуется выяснить:** ...
-**Почему важно:** ...
-**Где искать:** исходники | конфигурация | документация | runtime | тесты | другое
-**Блокирует зависимое техническое решение:** да | нет
+**Question:** ...
+**Why it matters:** ...
+**Where to investigate:** source | configuration | docs | runtime | tests | other
+**Blocks dependent technical decision:** yes | no
 
-## 13. Открытые бизнес-вопросы
+## 13. Open Business Questions
 ### Q-001
-**Вопрос:** ...
-**Блокирующий:** да | нет
-**Владелец:** заказчик | аналитик | product owner | другой
+**Question:** ...
+**Blocking:** yes | no
+**Owner:** customer | analyst | product owner | other
 
-## 14. Значимые решения и отклонённые альтернативы
+## 14. Decisions and Rejected Alternatives
 ### DEC-001
-**Решение:** ...
-**Отклонённый вариант:** ...
-**Причина:** ...
-**Источник:** SRC-001
+**Decision:** ...
+**Rejected alternative:** ...
+**Reason:** ...
+**Source:** SRC-001
 
-## 15. Риски
+## 15. Risks
 ### RISK-001
-**Риск:** ...
-**Связано с:** R-001 / PR-001
-**Почему важно:** ...
+**Risk:** ...
+**Related to:** R-001 / PR-001
+**Why it matters:** ...
 
-## 16. Источники
+## 16. Sources
 ### SRC-001
-**Тип:** business | source-code | configuration | documentation | runtime | test | communication
-**Источник:** ...
-**Подтверждает:** CTX-001, R-001, PR-001, VAL-001
+**Type:** business | source-code | configuration | documentation | runtime | test | communication
+**Source:** ...
+**Supports:** CTX-001, R-001, PR-001, VAL-001
 
-## 17. Трассировка требований
+## 17. Traceability
 | Requirement | Scenarios | Acceptance Criteria | Source |
 |---|---|---|---|
 | R-001 | S-001 | AC-001 | SRC-001 |
 
-## 18. Условия передачи следующему этапу
-- сохранить смысл R-*;
-- соблюдать NG-*;
-- сохранить PR-*;
-- соблюдать Constraints и VAL-*;
-- не считать предположения фактами;
-- закрыть релевантные INV-* до зависимых решений;
-- явно зафиксировать конфликт Contract с фактической системой;
-- сохранить трассировку требований до проверки результата.
+## 18. Handoff Conditions
+- preserve `R-*` meaning;
+- respect `NG-*`;
+- preserve `PR-*`;
+- respect Constraints and `VAL-*`;
+- do not treat assumptions as facts;
+- resolve relevant `INV-*` before dependent decisions;
+- expose conflicts between the Contract and the actual system;
+- preserve requirement-to-verification traceability.
 ```
 
-## Семантика разделов
+## Section semantics
 
-### Цель
-Отвечает на «что и зачем». Не содержит неподтверждённого HOW.
+### Objective
+States what and why. No unconfirmed HOW.
 
 ### Current Behavior / CTX
-Содержит только текущее состояние и подтверждённые/неподтверждённые наблюдения. Не смешивать с желаемым поведением.
+Current state only. Keep desired behavior separate. Mark each material statement `CONFIRMED`, `INFERRED`, or `UNKNOWN`.
 
 ### Expected Behavior
-Обзор целевого потока. Не является источником новых требований.
+A compact target-flow overview. It must not introduce new requirements.
 
 ### Requirements
-Главный источник истины по требуемому поведению. Каждое обязательное требование должно быть атомарным и проверяемым.
+Primary source of truth for required behavior. Mandatory requirements must be atomic and testable.
 
 ### Scenarios
-Показывают Requirements в контексте. Не вводят новых требований.
+Show requirements in context. They do not create new requirements.
 
 ### Acceptance Criteria
-Главный контракт проверки завершённости. Каждое обязательное Requirement покрывается минимум одним AC.
+Primary completion-verification contract. Every mandatory `R-*` needs at least one `AC-*`.
 
 ### Non-Goals
-Определяют намеренно исключённый scope.
+Intentionally excluded scope.
 
 ### Preserve
-Определяет регрессионные инварианты, которые обязаны продолжить работать.
+Regression invariants that must continue to work.
 
 ### Constraints
-Ограничивают допустимое решение. Не создают новые бизнес-требования.
+Restrict valid solutions without inventing new business behavior.
 
 ### Technical Investigation
-Содержит вопросы, которые следующий инженерный этап способен закрыть исследованием системы. Это не вопросы заказчику по умолчанию.
+Questions the next engineering stage can answer by inspecting the system. Not customer questions by default.
 
-### Business Open Questions
-Только отсутствующие бизнес-решения. Блокирующий Q может привести к статусу BLOCKED.
+### Open Business Questions
+Only missing business decisions. A blocking `Q-*` may justify `BLOCKED`.
 
 ### Decisions
-Сохраняет важный rationale принятого/отклонённого варианта, когда потеря причины может привести к повторению уже отвергнутого решения.
+Keep rationale for important accepted/rejected alternatives when losing it could cause a rejected approach to be proposed again.
 
-## Внутренний приоритет при противоречиях
+## Conflict precedence
 
-1. Явные окончательные бизнес-решения и `VAL-*`.
-2. `R-*`.
-3. `NG-*`, `PR-*`, Constraints.
-4. `AC-*`.
-5. Требуемое поведение.
-6. `S-*`.
-7. Known System Context.
-8. Предположения и примеры.
+1. Explicit final business decisions and `VAL-*`
+2. `R-*`
+3. `NG-*`, `PR-*`, Constraints
+4. `AC-*`
+5. Expected Behavior
+6. `S-*`
+7. Known Technical Context
+8. Assumptions and examples
 
-Если конфликт влияет на наблюдаемое бизнес-поведение и его нельзя разрешить по источникам, не выбирать вариант молча.
+If a conflict changes observable business behavior and sources cannot resolve it, expose the conflict instead of choosing silently.
