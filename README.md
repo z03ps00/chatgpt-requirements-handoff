@@ -127,7 +127,7 @@ Skill устанавливается через интерфейс ChatGPT.
 
 Подробная инструкция: [`INSTALL_CHATGPT.md`](INSTALL_CHATGPT.md).
 
-Доступность Personal Skills зависит от плана, рабочей области и поверхности ChatGPT. Актуальные условия лучше проверять в справке OpenAI перед установкой.
+Доступность Personal Skills зависит от плана, рабочей области и поверхности ChatGPT. Актуальные условия: [Skills in ChatGPT — OpenAI Help Center](https://help.openai.com/en/articles/20001066-skills-in-chatgpt).
 
 ## Использование
 
