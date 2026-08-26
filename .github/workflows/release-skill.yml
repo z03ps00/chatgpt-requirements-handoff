@@ -1,0 +1,62 @@
+name: Publish ChatGPT Skill release
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - SKILL.md
+      - references/**
+      - assets/**
+      - examples/**
+      - .github/workflows/release-skill.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Read version
+        id: version
+        shell: bash
+        run: |
+          VERSION=$(awk -F'"' '/^[[:space:]]*version:[[:space:]]*"/{print $2; exit}' SKILL.md)
+          test -n "$VERSION"
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "tag=v$VERSION" >> "$GITHUB_OUTPUT"
+
+      - name: Build install ZIP
+        shell: bash
+        run: |
+          VERSION='${{ steps.version.outputs.version }}'
+          PKG="requirements-handoff"
+          ZIP="requirements-handoff-chatgpt-skill-v${VERSION}.zip"
+          mkdir -p "dist/$PKG/references" "dist/$PKG/assets" "dist/$PKG/examples"
+          cp SKILL.md LICENSE "dist/$PKG/"
+          cp references/*.md "dist/$PKG/references/"
+          cp assets/*.md "dist/$PKG/assets/"
+          cp examples/*.md "dist/$PKG/examples/"
+          (cd dist && zip -qr "$ZIP" "$PKG")
+          sha256sum "dist/$ZIP" > "dist/$ZIP.sha256"
+
+      - name: Publish release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ steps.version.outputs.tag }}
+          VERSION: ${{ steps.version.outputs.version }}
+        shell: bash
+        run: |
+          ZIP="dist/requirements-handoff-chatgpt-skill-v${VERSION}.zip"
+          SUM="${ZIP}.sha256"
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            gh release upload "$TAG" "$ZIP" "$SUM" --clobber
+          else
+            gh release create "$TAG" "$ZIP" "$SUM" \
+              --target "$GITHUB_SHA" \
+              --title "requirements-handoff v${VERSION}" \
+              --notes "Готовая сборка ChatGPT Skill для ручной установки. Внутренние инструкции Skill написаны на английском; русское description сохранено для триггера. Скачайте ZIP и загрузите его в ChatGPT через Plugins → Skills → Create → Upload from your computer."
+          fi
