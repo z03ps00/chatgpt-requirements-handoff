@@ -50,4 +50,4 @@ Skill предназначен только для ChatGPT.
 
 ## Доступность Skills
 
-Personal Skills доступны не во всех планах и рабочих областях. Интерфейс также может отличаться между ChatGPT web, desktop и mobile. Перед установкой проверьте актуальную страницу OpenAI Help Center «Skills in ChatGPT».
+Personal Skills доступны не во всех планах и рабочих областях. Интерфейс также может отличаться между ChatGPT web, desktop и mobile. Актуальная справка: [Skills in ChatGPT — OpenAI Help Center](https://help.openai.com/en/articles/20001066-skills-in-chatgpt).
