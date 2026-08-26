@@ -1,81 +1,44 @@
 # Quality Gates
 
-Перед выдачей Contract выполни внутреннее ревью.
+Run this review before returning a Contract.
 
-## Gate 1 — Понятность без исходной переписки
+## Gate 1 — Understandable without the original chat
+PASS if another engineer can understand the task, scope, and expected result without reading the raw human input.
 
-PASS, если другой инженер может понять основную задачу, scope и ожидаемый результат, не читая исходный человеческий материал.
+## Gate 2 — No invented requirements
+For every `R-*`, verify that it is grounded in the input, is not merely model-preferred "best practice", and does not hide an unconfirmed implementation choice.
 
-## Gate 2 — Отсутствие выдуманных требований
+## Gate 3 — WHAT is separate from HOW
+A procedure, module, handler, API, or architecture mechanism must not become a Requirement unless explicitly mandated.
 
-Проверь каждое `R-*`:
-
-- есть ли у него основание во входе;
-- не является ли оно просто «хорошей практикой» модели;
-- не скрыта ли внутри неподтверждённая реализация.
-
-## Gate 3 — WHAT отделено от HOW
-
-Если конкретная процедура, модуль, обработчик, API или архитектурный механизм не являются обязательным решением, они не должны быть Requirement.
-
-## Gate 4 — Fact / Assumption / Unknown
-
-Каждый существенный текущий факт классифицирован честно. Никакое `ПРЕДПОЛОЖЕНИЕ` не описано как подтверждённое.
+## Gate 4 — Fact / inference / unknown
+Classify material current-state claims honestly. No `INFERRED` statement may be presented as confirmed.
 
 ## Gate 5 — Scope
+Verify In Scope, Out of Scope, and Preserve. `NG-*` and `PR-*` are not interchangeable.
 
-Проверить:
+## Gate 6 — Testability
+Every mandatory `R-*` has an observable result and at least one `AC-*`. AC should not require internal implementation knowledge unless necessary.
 
-- что входит;
-- что явно не входит;
-- что должно сохраниться.
+## Gate 7 — No hidden requirements in Scenarios or AC
+Material statements in `S-*` and `AC-*` must trace to `R-*`, `PR-*`, or a Constraint.
 
-`NG-*` и `PR-*` не должны быть взаимозаменяемыми.
+## Gate 8 — Unknowns are split correctly
+Technical unknown -> `INV-*`. Missing business decision -> `Q-*`. Do not use `BLOCKED` only because a technical question remains investigable.
 
-## Gate 6 — Проверяемость
-
-Для каждого обязательного `R-*`:
-
-- понятен наблюдаемый результат;
-- существует хотя бы один `AC-*`;
-- AC не зависит от знания внутренней реализации без необходимости.
-
-## Gate 7 — Нет новых требований в Scenarios / AC
-
-Все существенные утверждения в `S-*` и `AC-*` должны трассироваться к `R-*`, `PR-*` или Constraint.
-
-## Gate 8 — Неизвестность разделена
-
-- техническое неизвестное → `INV-*`;
-- отсутствующее бизнес-решение → `Q-*`.
-
-Не ставить `BLOCKED` только из-за технического вопроса, который следующий инженер может исследовать.
-
-## Gate 9 — Источники
-
-Не создавать фиктивные `SRC-*`. Подтверждённый существенный факт должен ссылаться на реальный источник, если он доступен.
+## Gate 9 — Sources
+Do not invent `SRC-*`. Material confirmed facts should reference real evidence when available.
 
 ## Gate 10 — Rationale
+If an important option was explicitly rejected and the reason may affect future design, preserve it as `DEC-*`.
 
-Если значимый вариант был явно отклонён и причина может повлиять на будущий design, сохранить её через `DEC-*`.
+## Gate 11 — Neutrality
+The Contract must not require OpenSpec, `/opsx propose`, a specific Plan Mode, `design.md`, a specific agent loop, or a tool-specific implementation report.
 
-## Gate 11 — Нейтральность
+## Gate 12 — Status
+- `READY`: business meaning is sufficient for the next stage.
+- `BLOCKED`: only a genuinely blocking business decision is missing.
+- `DRAFT`: normalization is objectively incomplete.
 
-Contract не должен предписывать:
-
-- OpenSpec;
-- `/opsx propose`;
-- Plan Mode конкретного агента;
-- `design.md`;
-- конкретный agent loop;
-- implementation-report конкретного инструмента.
-
-## Gate 12 — Статус
-
-- `READY`: бизнес-смысл достаточно определён для следующего этапа.
-- `BLOCKED`: только при реально блокирующем бизнес-решении.
-- `DRAFT`: нормализация ещё объективно не завершена.
-
-## Финальная проверка трассировки
-
-Убедись, что таблица содержит все обязательные `R-*` и минимум один `AC-*` для каждого.
+## Final traceability check
+Ensure the traceability table contains every mandatory `R-*` and at least one `AC-*` for each.
