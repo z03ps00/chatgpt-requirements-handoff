@@ -97,7 +97,7 @@ READY
 
 ## Установка в ChatGPT
 
-Готовая сборка `v1.1.0` находится прямо в репозитории: [скачать ZIP](dist/requirements-handoff-chatgpt-skill-v1.1.0.zip). Рядом лежит [SHA-256](dist/requirements-handoff-chatgpt-skill-v1.1.0.zip.sha256).
+Готовая сборка `v1.1.0` находится в репозитории: [скачать ZIP](dist/requirements-handoff-chatgpt-skill-v1.1.0.zip). Рядом лежит [SHA-256](dist/requirements-handoff-chatgpt-skill-v1.1.0.zip.sha256) именно для этого файла. Та же сборка публикуется в [Releases](https://github.com/z03ps00/chatgpt-requirements-handoff/releases/tag/v1.1.0).
 
 Для следующих версий подготовлен workflow [`Publish ChatGPT Skill release`](.github/workflows/release-skill.yml). Его ручной запуск через GitHub Actions создаёт/обновляет Release и прикладывает ZIP вместе с checksum.
 

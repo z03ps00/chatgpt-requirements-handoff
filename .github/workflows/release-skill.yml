@@ -5,6 +5,7 @@ on:
     branches: [main]
     paths:
       - SKILL.md
+      - LICENSE
       - references/**
       - assets/**
       - examples/**
@@ -40,8 +41,12 @@ jobs:
           cp references/*.md "dist/$PKG/references/"
           cp assets/*.md "dist/$PKG/assets/"
           cp examples/*.md "dist/$PKG/examples/"
-          (cd dist && zip -qr "$ZIP" "$PKG")
-          sha256sum "dist/$ZIP" > "dist/$ZIP.sha256"
+          # Reproducible ZIP: UTC timestamps, sorted entries, no extra attributes.
+          export TZ=UTC
+          find "dist/$PKG" -exec touch -d "2026-01-01 00:00:00 UTC" {} +
+          rm -f "dist/$ZIP"
+          (cd dist && find "$PKG" | LC_ALL=C sort | zip -q -X -@ "$ZIP")
+          (cd dist && sha256sum "$ZIP" > "$ZIP.sha256")
 
       - name: Publish release
         env:

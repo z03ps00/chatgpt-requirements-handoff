@@ -4,7 +4,7 @@
 
 ## Готовая сборка v1.1.0
 
-Скачайте [`requirements-handoff-chatgpt-skill-v1.1.0.zip`](dist/requirements-handoff-chatgpt-skill-v1.1.0.zip). Проверочная сумма лежит рядом: [`SHA-256`](dist/requirements-handoff-chatgpt-skill-v1.1.0.zip.sha256).
+Скачайте [`requirements-handoff-chatgpt-skill-v1.1.0.zip`](dist/requirements-handoff-chatgpt-skill-v1.1.0.zip). Проверочная сумма лежит рядом: [`SHA-256`](dist/requirements-handoff-chatgpt-skill-v1.1.0.zip.sha256) — она относится к этому ZIP, а не к другому источнику. Та же сборка есть в [GitHub Release v1.1.0](https://github.com/z03ps00/chatgpt-requirements-handoff/releases/tag/v1.1.0).
 
 Распаковывать архив перед загрузкой не требуется.
 

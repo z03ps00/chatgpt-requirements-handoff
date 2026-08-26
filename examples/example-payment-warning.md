@@ -8,7 +8,7 @@ A compact example of the expected result. It demonstrates semantics; do not copy
 READY
 
 ## 1. Objective
-Change how users are informed about a payment-schedule violation after successful posting. When a violation exists, show one separate warning while preserving the existing violation-detection algorithm.
+Change how users are informed about a payment-schedule violation after successful posting. When a violation exists, show one separate warning for both Post and Post and Close, while preserving the existing violation-detection algorithm.
 
 ## 2. Scope
 ### In Scope
@@ -28,39 +28,45 @@ Do not change the rules that determine a payment-schedule violation.
 **Needs verification:** no
 
 ## 4. Expected Behavior
-After successful posting, if a violation exists, the user receives one separate warning. If no violation exists, no extra warning appears.
+After a successful Post or Post and Close, if a violation exists, the user receives one separate warning. If no violation exists, no extra warning appears.
 
 ## 5. Requirements
 ### R-001 — Warning after posting
-**Condition:** the document is successfully posted and the existing check detects a violation.  
+**Condition:** the document is successfully posted via Post or Post and Close, and the existing check detects a violation.  
 **Requirement:** show a separate warning to the user.  
 **Expected result:** one warning per posting action.  
 **Source:** SRC-001
 
 ### R-002 — Remove the legacy notification
-**Condition:** a violation is detected.  
+**Condition:** the document is successfully posted via Post or Post and Close, and the existing check detects a violation.  
 **Requirement:** do not show the duplicate legacy system message.  
 **Expected result:** the user does not receive a second notification for the same violation.  
 **Source:** SRC-001
 
 ## 6. Scenarios
-### S-001 — Posting with a violation
+### S-001 — Post with a violation
 **Covers:** R-001, R-002  
 **Given:** the existing check identifies a violation.  
-**When:** the user posts the document.  
-**Then:** posting succeeds, exactly one warning is shown, and the legacy message is absent.
+**When:** the user posts the document with Post.  
+**Then:** exactly one warning is shown, and the legacy message is absent.
+
+### S-002 — Post and Close with a violation
+**Covers:** R-001, R-002  
+**Given:** the existing check identifies a violation.  
+**When:** the user posts the document with Post and Close.  
+**Then:** exactly one warning is shown, and the legacy message is absent.
 
 ## 7. Acceptance Criteria
 ### AC-001
 **Verifies:** R-001  
 **Condition:** a violation exists.  
-**Action:** the user posts the document.  
+**Action:** the user posts the document with Post or Post and Close.  
 **Expected:** the warning appears exactly once.
 
 ### AC-002
 **Verifies:** R-002  
 **Condition:** a violation exists.  
-**Action:** posting is performed.  
+**Action:** the user posts the document with Post or Post and Close.  
 **Expected:** the legacy system message does not appear.
 
 ## 8. Preserve / Invariants
@@ -81,10 +87,10 @@ None.
 ### SRC-001
 **Type:** business  
 **Source:** original user requirement.  
-**Supports:** R-001, R-002, PR-001
+**Supports:** CTX-001, R-001, R-002, PR-001
 
 ## 17. Traceability
 | Requirement | Scenarios | Acceptance Criteria | Source |
 |---|---|---|---|
-| R-001 | S-001 | AC-001 | SRC-001 |
-| R-002 | S-001 | AC-002 | SRC-001 |
+| R-001 | S-001, S-002 | AC-001 | SRC-001 |
+| R-002 | S-001, S-002 | AC-002 | SRC-001 |
