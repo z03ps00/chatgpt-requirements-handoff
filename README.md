@@ -95,7 +95,9 @@ READY
 
 ## Установка в ChatGPT
 
-Самый простой вариант — скачать готовый ZIP из [GitHub Releases](https://github.com/z03ps00/chatgpt-requirements-handoff/releases/latest).
+Готовая сборка `v1.1.0` находится прямо в репозитории: [скачать ZIP](dist/requirements-handoff-chatgpt-skill-v1.1.0.zip). Рядом лежит [SHA-256](dist/requirements-handoff-chatgpt-skill-v1.1.0.zip.sha256).
+
+Для следующих версий подготовлен workflow [`Publish ChatGPT Skill release`](.github/workflows/release-skill.yml). Его ручной запуск через GitHub Actions создаёт/обновляет Release и прикладывает ZIP вместе с checksum.
 
 Далее в ChatGPT:
 
@@ -103,7 +105,7 @@ READY
 2. Перейдите в **Skills**.
 3. Нажмите **Create**.
 4. Выберите **Upload from your computer**.
-5. Загрузите ZIP из Release.
+5. Загрузите ZIP.
 
 Подробная инструкция: [`INSTALL_CHATGPT.md`](INSTALL_CHATGPT.md).
 
@@ -143,11 +145,14 @@ chatgpt-requirements-handoff/
 │   └── requirements-handoff-template.md
 ├── examples/
 │   └── example-payment-warning.md
+├── dist/
+│   ├── requirements-handoff-chatgpt-skill-v1.1.0.zip
+│   └── requirements-handoff-chatgpt-skill-v1.1.0.zip.sha256
 └── .github/workflows/
     └── release-skill.yml
 ```
 
-`SKILL.md` содержит основной workflow и триггеры ChatGPT. Supporting resources загружаются только когда нужны. GitHub Actions собирает установочный ZIP для версии из `metadata.version` и публикует его в Releases вместе с SHA-256.
+`SKILL.md` содержит основной workflow и триггеры ChatGPT. Supporting resources загружаются только когда нужны. GitHub Actions умеет собирать установочный ZIP для версии из `metadata.version` и публиковать его в Releases вместе с SHA-256.
 
 ## Что Skill намеренно не делает
 
