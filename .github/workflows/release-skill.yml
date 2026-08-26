@@ -10,12 +10,15 @@ on:
       - examples/**
       - .github/workflows/release-skill.yml
   workflow_dispatch:
+  issues:
+    types: [opened]
 
 permissions:
   contents: write
 
 jobs:
   release:
+    if: github.event_name != 'issues' || startsWith(github.event.issue.title, '[release-skill]')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -60,5 +63,3 @@ jobs:
               --title "requirements-handoff v${VERSION}" \
               --notes "Готовая сборка ChatGPT Skill для ручной установки. Внутренние инструкции Skill написаны на английском; русское description сохранено для триггера. Скачайте ZIP и загрузите его в ChatGPT через Plugins → Skills → Create → Upload from your computer."
           fi
-
-# Updating this workflow triggers release packaging for the current metadata.version.
