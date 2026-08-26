@@ -1,122 +1,96 @@
-# Правила нормализации человеческого ТЗ
+# Human-requirements normalization rules
 
-## Цель нормализации
+## Goal
 
-Преобразовать разговорный, повторяющийся или частично противоречивый вход в инженерно однозначный Contract без потери бизнес-смысла и без изобретения требований.
+Convert conversational, repetitive, incomplete, or partly conflicting input into an engineering-ready Contract without losing business intent or inventing requirements.
 
-## Удалять как шум
+## Drop as noise
 
-Можно не переносить дословно:
+You may omit verbatim:
+- emotional phrasing;
+- greetings and coordination chatter;
+- repeated statements of the same decision;
+- discussion that does not affect the final decision;
+- early options clearly superseded later;
+- unsupported technical guesses unless they matter as an investigation lead.
 
-- эмоциональные формулировки;
-- приветствия и организационные фразы;
-- повторы одного и того же решения;
-- обсуждение, не влияющее на итог;
-- ранние варианты, которые однозначно отменены более поздним решением;
-- технические догадки, если они не подтверждены и не важны как вариант исследования.
+## Always preserve
 
-## Обязательно сохранять
+- final requirements;
+- rationale when it explains an important constraint;
+- exceptions and edge cases;
+- negative requirements;
+- exact text and values;
+- qualifiers such as only, except, while preserving, do not change;
+- confirmed technical facts;
+- explicit environment constraints;
+- reasons for rejecting important alternatives when the next engineer could otherwise repeat them.
 
-- окончательное требование;
-- мотивацию, если она объясняет смысл ограничения;
-- исключения и edge cases;
-- отрицательные требования;
-- точные тексты и значения;
-- условия «только», «кроме», «при этом», «не менять»;
-- подтверждённые технические факты;
-- явные ограничения окружения;
-- причины отказа от значимых альтернатив, если следующий инженер может снова к ним прийти.
+## Negative statements
 
-## Отрицательные формулировки
+Treat phrases such as "do not change", "must not", "do not show", "do not create", "keep as is", "only", "except", or "without changing" as potentially important.
 
-Особенно внимательно обрабатывать:
+Classify them by meaning as Requirement, Non-Goal, Preserve, or Constraint.
 
-- не менять;
-- не должно;
-- не показывать;
-- не создавать;
-- не использовать;
-- оставить как сейчас;
-- без изменения;
-- только;
-- кроме;
-- исключить.
+## WHAT vs HOW
 
-Классифицировать их как Requirement, Non-Goal, Preserve или Constraint в зависимости от смысла.
+Input:
+> Add an AfterWrite handler and show a dialog after posting.
 
-## WHAT и HOW
+If only the behavior is mandatory, normalize to:
+- `R-*`: show a warning after successful posting;
+- `INV-*` or possible approach: identify the correct implementation point.
 
-Пример входа:
+Keep a specific handler as mandatory only when it is explicitly required or confirmed as a technical constraint/decision.
 
-> Добавьте обработчик ПослеЗаписи и покажите окно после проведения.
+## Confidence
 
-Если из контекста обязательным является только поведение, нормализовать так:
+### CONFIRMED
+Directly supported by an appropriate source.
 
-- `R-*`: после успешного проведения показать предупреждение;
-- `INV-*` или possible approach: определить корректную точку реализации.
+Distinguish business evidence from technical evidence. A customer statement such as "the system currently does X" confirms the reported observation, not necessarily the internal mechanism behind X.
 
-Сохранять конкретный обработчик как обязательный только если он явно зафиксирован как техническое ограничение/решение.
+### INFERRED
+A strong conclusion that still lacks sufficient verification.
 
-## Достоверность
+### UNKNOWN
+Insufficient evidence. Do not fill with the most likely answer.
 
-### ПОДТВЕРЖДЕНО
-Есть прямое основание в источнике соответствующего типа.
+## Business question vs technical investigation
 
-Важно различать:
+Use `Q-*` when the answer requires a business decision, for example:
+- exact user-facing text;
+- priority between business rules;
+- which behavior is correct;
+- whether a process change is acceptable.
 
-- подтверждённый бизнес-факт из постановки;
-- подтверждённый технический факт из исходников/runtime.
+Use `INV-*` when system investigation can answer it, for example:
+- where a mechanism is called;
+- which form participates;
+- which extension point is safer;
+- whether a shared module already exists;
+- which clients are actually supported;
+- whether relevant tests already exist.
 
-Фраза заказчика «сейчас система делает X» подтверждает его наблюдение, но не обязательно внутренний технический механизм X.
+## Conflicts and chronology
 
-### ПРЕДПОЛОЖЕНИЕ
-Сильный вывод, но нет достаточной проверки.
+When sources conflict:
+1. Determine whether a later decision clearly supersedes an earlier one.
+2. If yes, use the final decision and add `DEC-*` when the rationale matters.
+3. If no, do not merge incompatible variants. Create `Q-*` or expose the conflict.
 
-### НЕИЗВЕСТНО
-Данных недостаточно. Не заполнять наиболее вероятным вариантом.
+## Requirement atomicity
 
-## Business Question vs Technical Investigation
+Bad:
+> On posting, show a dialog, remove the old message, and do not change the validation algorithm.
 
-### Q-*
-Использовать, если ответ требует бизнес-решения:
+Better:
+- `R-001`: show the warning under condition X;
+- `R-002`: remove the old notification path;
+- `PR-001`: preserve the violation-detection algorithm.
 
-- какой текст показывать;
-- какое правило приоритета выбрать;
-- какое поведение считается правильным;
-- допустимо ли изменение бизнес-процесса.
+## Scenarios and AC
 
-### INV-*
-Использовать, если ответ можно получить исследованием:
+A Scenario or Acceptance Criterion must not invent behavior absent from Requirements.
 
-- где вызывается механизм;
-- какая форма участвует;
-- какая точка расширения безопаснее;
-- есть ли уже общий модуль;
-- какие клиенты поддерживаются фактически;
-- есть ли существующие тесты.
-
-## Противоречия и хронология
-
-Если несколько источников противоречат:
-
-1. Определи, было ли явно принято более позднее решение.
-2. Если да — используй итоговое решение и при необходимости создай `DEC-*`.
-3. Если нет — не склеивай варианты. Создай `Q-*` или явно обозначь конфликт.
-
-## Атомарность Requirements
-
-Плохое требование:
-
-> При проведении показать окно, убрать старое сообщение и не менять алгоритм проверки.
-
-Лучше:
-
-- `R-001` — показать предупреждение при условии X;
-- `R-002` — убрать старый способ информирования;
-- `PR-001` — сохранить алгоритм определения нарушения.
-
-## Сценарии и AC
-
-Сценарий или AC не должен «додумывать» поведение, которого нет в Requirements.
-
-Если при построении AC обнаружилось новое необходимое правило — сначала добавь/уточни Requirement, если оно действительно подтверждено источником. Иначе зафиксируй неизвестность.
+If AC construction reveals a missing rule, first add or refine a Requirement only when a source supports it. Otherwise preserve the uncertainty.
