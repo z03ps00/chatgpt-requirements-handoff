@@ -10,15 +10,12 @@ on:
       - examples/**
       - .github/workflows/release-skill.yml
   workflow_dispatch:
-  issues:
-    types: [opened]
 
 permissions:
   contents: write
 
 jobs:
   release:
-    if: github.event_name != 'issues' || startsWith(github.event.issue.title, '[release-skill]')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
