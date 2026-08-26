@@ -60,3 +60,5 @@ jobs:
               --title "requirements-handoff v${VERSION}" \
               --notes "Готовая сборка ChatGPT Skill для ручной установки. Внутренние инструкции Skill написаны на английском; русское description сохранено для триггера. Скачайте ZIP и загрузите его в ChatGPT через Plugins → Skills → Create → Upload from your computer."
           fi
+
+# Updating this workflow triggers release packaging for the current metadata.version.
